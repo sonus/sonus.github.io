@@ -1,4 +1,39 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.4">Jekyll</generator><link href="https://sonus.xyz/feed.xml" rel="self" type="application/atom+xml" /><link href="https://sonus.xyz/" rel="alternate" type="text/html" /><updated>2018-10-09T16:59:11+05:30</updated><id>https://sonus.xyz/feed.xml</id><title type="html">SONUS.XYZ</title><subtitle>I love to program things and make it much simple and user-friendly so that even a 1st-grade student can play with it..</subtitle><entry><title type="html">eMoticon CheatSheet</title><link href="https://sonus.xyz/2018/10/09/emoticon-cheatsheet.html" rel="alternate" type="text/html" title="eMoticon CheatSheet" /><published>2018-10-09T00:00:00+05:30</published><updated>2018-10-09T00:00:00+05:30</updated><id>https://sonus.xyz/2018/10/09/emoticon-cheatsheet</id><content type="html" xml:base="https://sonus.xyz/2018/10/09/emoticon-cheatsheet.html">&lt;p&gt;Here are some eMoticon CheatSheet :&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.4">Jekyll</generator><link href="https://sonus.xyz/feed.xml" rel="self" type="application/atom+xml" /><link href="https://sonus.xyz/" rel="alternate" type="text/html" /><updated>2018-10-11T11:52:15+05:30</updated><id>https://sonus.xyz/feed.xml</id><title type="html">SONUS.XYZ</title><subtitle>I love to program things and make it much simple and user-friendly so that even a 1st-grade student can play with it..</subtitle><entry><title type="html">RegEx for parsing chemical formulas in paragraph</title><link href="https://sonus.xyz/2018/10/11/regex-for-parsing-chemical-formulas-in-paragraph.html" rel="alternate" type="text/html" title="RegEx for parsing chemical formulas in paragraph" /><published>2018-10-11T00:00:00+05:30</published><updated>2018-10-11T00:00:00+05:30</updated><id>https://sonus.xyz/2018/10/11/regex-for-parsing-chemical-formulas-in-paragraph</id><content type="html" xml:base="https://sonus.xyz/2018/10/11/regex-for-parsing-chemical-formulas-in-paragraph.html">&lt;p&gt;Here what it is&lt;/p&gt;
+
+&lt;p&gt;Document Store returns somthing like this&lt;/p&gt;
+
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+	&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+		&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Water&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+		&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;details&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot; water chemical formula is H2O&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+	&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+	&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;and we want to replace chemical formula to look in html like this&lt;/p&gt;
+&lt;p&gt;
+	water chemical formula is H&lt;sub&gt;2&lt;/sub&gt;O
+&lt;/p&gt;
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;
+	water chemical formula is H&lt;span class=&quot;nt&quot;&gt;&amp;lt;sub&amp;gt;&lt;/span&gt;2&lt;span class=&quot;nt&quot;&gt;&amp;lt;/sub&amp;gt;&lt;/span&gt;O
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;So here is how I did it&lt;/p&gt;
+
+&lt;p&gt;Link to &lt;a href=&quot;https://codepen.io/anon/pen/jemQqe&quot;&gt;codepen&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;str&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Aluminium oxide or aluminum oxide is a chemical compound of aluminium and oxygen with the chemical formula Al2O3. It is the most commonly occurring of several aluminium oxides, and specifically identified as aluminium(III) oxide'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;regex&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;A-Z&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;a-z&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;]?\d&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;W*/g&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;str&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;regex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;matched&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;matched&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\d&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;+/g&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;mtch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;sub&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;mtch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;/sub&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; 
+  &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><summary type="html">Here what it is</summary></entry><entry><title type="html">eMoticon CheatSheet</title><link href="https://sonus.xyz/2018/10/09/emoticon-cheatsheet.html" rel="alternate" type="text/html" title="eMoticon CheatSheet" /><published>2018-10-09T00:00:00+05:30</published><updated>2018-10-09T00:00:00+05:30</updated><id>https://sonus.xyz/2018/10/09/emoticon-cheatsheet</id><content type="html" xml:base="https://sonus.xyz/2018/10/09/emoticon-cheatsheet.html">&lt;p&gt;Here are some eMoticon CheatSheet :&lt;/p&gt;
 
 &lt;table&gt;
   &lt;thead&gt;
