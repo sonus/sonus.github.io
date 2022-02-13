@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>regex on Sonus Sundar - Full-stack Software Engineer</title>
+    <link>https://blist.vercel.app/tags/regex/</link>
+    <description>Recent content in regex on Sonus Sundar - Full-stack Software Engineer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Thu, 11 Oct 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://blist.vercel.app/tags/regex/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>RegEx for parsing chemical formulas in paragraph</title>
+      <link>https://blist.vercel.app/blog/regex-for-parsing-chemical-formulas-in-paragraph/</link>
+      <pubDate>Thu, 11 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://blist.vercel.app/blog/regex-for-parsing-chemical-formulas-in-paragraph/</guid>
+      <description>Here what it is
+Data returns something like this
+[ { name: &amp;#34;Water&amp;#34;, details: &amp;#34; water chemical formula is H2O&amp;#34; } ... ] and we want to replace chemical formula to look in html like this
+ water chemical formula is H2O &amp;lt;p&amp;gt; water chemical formula is H&amp;lt;sub&amp;gt;2&amp;lt;/sub&amp;gt;O &amp;lt;/p&amp;gt; You can replace the specific content in side the html body like the following.
+Link to codepen
+var str = &amp;#39;Aluminium oxide or aluminum oxide is a chemical compound of aluminium and oxygen with the chemical formula Al2O3.</description>
+    </item>
+    
+  </channel>
+</rss>
