@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Terminator on Sonus Sundar - Full-stack Software Engineer</title>
-    <link>https://blist.vercel.app/tags/terminator/</link>
+    <link>https://sonus.xyz/tags/terminator/</link>
     <description>Recent content in Terminator on Sonus Sundar - Full-stack Software Engineer</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 09 Oct 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://blist.vercel.app/tags/terminator/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 09 Oct 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://sonus.xyz/tags/terminator/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Toggle-Terminator</title>
-      <link>https://blist.vercel.app/blog/toggle-terminator/</link>
+      <link>https://sonus.xyz/blog/toggle-terminator/</link>
       <pubDate>Tue, 09 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://blist.vercel.app/blog/toggle-terminator/</guid>
+      <guid>https://sonus.xyz/blog/toggle-terminator/</guid>
       <description>Make Terminator Terminal Act Like Guake/Yakuake Terminal in UBUNTU Many of us might have come across our favourite tools lakes some features, This is something like that turn out to be this repo that implemented a toggle functionality to the terminator.
 Check out the git repo :
 Star

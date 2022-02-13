@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>chemical-formulas on Sonus Sundar - Full-stack Software Engineer</title>
-    <link>https://blist.vercel.app/tags/chemical-formulas/</link>
+    <link>https://sonus.xyz/tags/chemical-formulas/</link>
     <description>Recent content in chemical-formulas on Sonus Sundar - Full-stack Software Engineer</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 11 Oct 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://blist.vercel.app/tags/chemical-formulas/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 11 Oct 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://sonus.xyz/tags/chemical-formulas/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>RegEx for parsing chemical formulas in paragraph</title>
-      <link>https://blist.vercel.app/blog/regex-for-parsing-chemical-formulas-in-paragraph/</link>
+      <link>https://sonus.xyz/blog/regex-for-parsing-chemical-formulas-in-paragraph/</link>
       <pubDate>Thu, 11 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://blist.vercel.app/blog/regex-for-parsing-chemical-formulas-in-paragraph/</guid>
+      <guid>https://sonus.xyz/blog/regex-for-parsing-chemical-formulas-in-paragraph/</guid>
       <description>Here what it is
 Data returns something like this
 [ { name: &amp;#34;Water&amp;#34;, details: &amp;#34; water chemical formula is H2O&amp;#34; } ... ] and we want to replace chemical formula to look in html like this
