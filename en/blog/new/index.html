@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="icon" href="/sonus-logo.svg">
+
+  <title>
+    Scaling Bitmasking: Mastering Permissions Beyond 64 Bits with Multiple Masks - Sonus Sundar - Full-stack Software Engineer
+  </title>
+  <meta name="description" content="Your JWTs are lean, but what if you need more than 64 permissions? Dive into advanced bitmasking strategies to manage hundreds of granular permissions by splitting them into multiple, highly efficient masks." /><meta name="generator" content="Hugo 0.128.0">
+  <link rel="stylesheet" href="/css/styles.css" />
+  <style>
+        .dark .header-path {
+          stroke: #FFF;
+        }
+        .logo-path {
+    stroke: #000;
+    stroke-width: 1;
+  stroke-dasharray: 100;
+  animation: dash 3s linear infinite;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 1000;
+  }
+}
+</style>
+  
+  
+
+  <meta property="og:url" content="http://localhost:1313/en/blog/new/">
+  <meta property="og:site_name" content="Sonus Sundar - Full-stack Software Engineer">
+  <meta property="og:title" content="Scaling Bitmasking: Mastering Permissions Beyond 64 Bits with Multiple Masks">
+  <meta property="og:description" content="Your JWTs are lean, but what if you need more than 64 permissions? Dive into advanced bitmasking strategies to manage hundreds of granular permissions by splitting them into multiple, highly efficient masks.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-07-27T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-07-27T00:00:00+00:00">
+    <meta property="article:tag" content="Fat Jwt">
+    <meta property="article:tag" content="Heavy Jwt">
+    <meta property="article:tag" content="Jwt">
+    <meta property="article:tag" content="Bitmasking">
+    <meta property="article:tag" content="413 Request Entity Too Large">
+    <meta property="article:tag" content="414 URI Too Long">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Scaling Bitmasking: Mastering Permissions Beyond 64 Bits with Multiple Masks">
+  <meta name="twitter:description" content="Your JWTs are lean, but what if you need more than 64 permissions? Dive into advanced bitmasking strategies to manage hundreds of granular permissions by splitting them into multiple, highly efficient masks.">
+
+  
+  <meta itemprop="name" content="Scaling Bitmasking: Mastering Permissions Beyond 64 Bits with Multiple Masks">
+  <meta itemprop="description" content="Your JWTs are lean, but what if you need more than 64 permissions? Dive into advanced bitmasking strategies to manage hundreds of granular permissions by splitting them into multiple, highly efficient masks.">
+  <meta itemprop="datePublished" content="2025-07-27T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-07-27T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1284">
+  <meta itemprop="keywords" content="Fat Jwt,Heavy Jwt,Jwt,Bitmasking,413 Request Entity Too Large,414 URI Too Long,400 Bad Request,Request Header Too Large,Header Size Exceeds Configuration Limit,Client Sent Too Large Request Header,Upstream Sent Too Big Header,Request Header Fields Too Large,HTTP 431,NGINX 400 Error,NGINX 413 Error,NGINX 414 Error,Apache 431 Error,Large Request Header Error,Header Buffer Size Error,Large_headers,Oversized_request_header,Reverse Proxy Error,Web Server Error">
+</head>
+<body class="dark:bg-gray-800 dark:text-white relative flex flex-col min-h-screen"><header class="container flex justify-between md:justify-between gap-4 flex-wrap p-6 mx-auto relative">
+  <a href="http://localhost:1313/en/" class="capitalize font-extrabold text-2xl"style="transform: rotate(270deg);">
+    
+    <svg class="max-w-full" width="100" height="120" viewBox="0 0 100 120" fill="none"
+  xmlns="http://www.w3.org/2000/svg">
+  <path class="logo-path"  d="M20.6565 10.2626 L50.3904 79.3435 L79.5415 10.8006 L10.2906 60.4069 L50.3904 110.312 L89.7094 60.4069 L20.6565 10.2626 Z"></path>
+</svg>
+    
+  </a>
+  <button class="mobile-menu-button md:hidden">
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <line x1="4" y1="8" x2="20" y2="8" />
+      <line x1="4" y1="16" x2="20" y2="16" />
+    </svg>
+  </button>
+  <ul class="mobile-menu absolute z-10 px-6 pb-6 md:p-0 top-full left-0 w-full md:w-auto md:relative hidden md:flex flex-col md:flex-row items-end md:items-center gap-4 lg:gap-6 bg-white dark:bg-gray-800">
+
+    
+    <li><a href="/en/blog">Blog</a></li>
+    
+    <li><a href="/en/page/about/">About</a></li>
+    
+    <li><a href="/en/tags">Tags</a></li>
+    
+
+    
+
+    
+    <li class="grid place-items-center">
+      <span class="open-search inline-block cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5"
+          stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <circle cx="10" cy="10" r="7" />
+          <line x1="21" y1="21" x2="15" y2="15" />
+        </svg>
+      </span>
+    </li>
+    
+
+    
+    <li class="grid place-items-center">
+      <span class="toggle-dark-mode inline-block cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5"
+          stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <circle cx="12" cy="12" r="3" />
+          <line x1="12" y1="5" x2="12" y2="5.01" />
+          <line x1="17" y1="7" x2="17" y2="7.01" />
+          <line x1="19" y1="12" x2="19" y2="12.01" />
+          <line x1="17" y1="17" x2="17" y2="17.01" />
+          <line x1="12" y1="19" x2="12" y2="19.01" />
+          <line x1="7" y1="17" x2="7" y2="17.01" />
+          <line x1="5" y1="12" x2="5" y2="12.01" />
+          <line x1="7" y1="7" x2="7" y2="7.01" />
+        </svg>
+      </span>
+    </li>
+    
+  </ul>
+</header><main class="flex-1">
+  
+  
+
+  
+  <div class="relative max-w-5xl mx-auto px-4">
+    <img src="https://picsum.photos/id/176/800/500" class="rounded-lg shadow-sm w-full object-contain" />
+    <div class="absolute top-4 right-8 rounded shadow bg-white text-gray-900 dark:bg-gray-900 dark:text-white px-2 py-0.5">
+      
+  
+    July 27, 2025
+  
+
+
+    </div>
+  </div>
+  
+
+  <article class="prose lg:prose-lg mx-auto my-8 dark:prose-dark px-4">
+
+    <h1 class="text-2xl font-bold mb-2">Scaling Bitmasking: Mastering Permissions Beyond 64 Bits with Multiple Masks</h1>
+    <h5 class="text-sm flex items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="mr-1" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <rect x="4" y="5" width="16" height="16" rx="2" />
+        <line x1="16" y1="3" x2="16" y2="7" />
+        <line x1="8" y1="3" x2="8" y2="7" />
+        <line x1="4" y1="11" x2="20" y2="11" />
+        <rect x="8" y="15" width="2" height="2" />
+      </svg>
+      Posted on 
+  
+    July 27, 2025
+  
+
+
+      
+        &nbsp;&bull;&nbsp;
+      
+      <svg xmlns="http://www.w3.org/2000/svg" class="mr-1" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <circle cx="12" cy="12" r="9" />
+        <polyline points="12 7 12 12 15 15" />
+      </svg>
+      7&nbsp;minutes
+      &nbsp;&bull;
+      <svg xmlns="http://www.w3.org/2000/svg" class="mx-1" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
+        <path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
+        <line x1="3" y1="6" x2="3" y2="19" />
+        <line x1="12" y1="6" x2="12" y2="19" />
+        <line x1="21" y1="6" x2="21" y2="19" />
+      </svg>
+      1284&nbsp;words
+      
+    </h5>
+
+    <h1 id="scaling-bitmasking-mastering-permissions-beyond-64-bits-with-multiple-masks">Scaling Bitmasking: Mastering Permissions Beyond 64 Bits with Multiple Masks</h1>
+<p>Remember our last chat about how bitmasking can rescue your heavy JWTs? We saw how a single 64-bit integer could compactly represent up to 64 distinct permissions, slashing your token size from hefty kilobytes down to a few hundred bytes. That&rsquo;s a game-changer!</p>
+<p>But what if you&rsquo;re building a massive system with hundreds, or even thousands, of super-granular permissions across multiple modules or services? The thought of hitting that 64-bit ceiling might make your palms sweaty. Don&rsquo;t sweat it! As we hinted before, the beauty of bitmasking is its inherent scalability. You don&rsquo;t just stop at one number.</p>
+<p>This is where advanced multi-mask architectures come into play. We&rsquo;re going to dive into how you can manage permissions far beyond a single 64-bit integer, keeping your JWTs compact and your system logically organized.</p>
+<h3 id="why-go-multi-mask">Why Go Multi-Mask?</h3>
+<p>There are two primary reasons why you&rsquo;d venture into the realm of multiple permission masks:</p>
+<ol>
+<li>
+<p><strong>Exceeding the 64-bit Limit:</strong> This is the most obvious one. If your application genuinely has more than 64 unique, distinct permissions that a single user might possess, you simply need more bits. Using multiple 64-bit integers extends your capacity exponentially.</p>
+</li>
+<li>
+<p><strong>Logical Grouping by Service/Module:</strong> Even if you <em>could</em> technically cram all 100 permissions into two 64-bit integers, it might make more sense to group them logically. Think about a large SaaS platform with separate modules like a Blog, an E-commerce Store, and a User Management System. It&rsquo;s cleaner to have:</p>
+<ul>
+<li><code>blogPermissionsMask</code></li>
+<li><code>eCommercePermissionsMask</code></li>
+<li><code>userManagementPermissionsMask</code></li>
+</ul>
+<p>This compartmentalization makes your code more readable, easier to debug, and simpler to manage as your application grows.</p>
+</li>
+</ol>
+<h3 id="defining-your-multi-mask-architecture">Defining Your Multi-Mask Architecture</h3>
+<p>The core concept remains the same: each permission gets a unique bit position. The difference is that you now define these positions <em>within specific categories or domains</em>.</p>
+<p>Let&rsquo;s redefine our <code>PERMISSION_FLAGS</code> into logical groups. For instance, if you have a <code>Blog</code> service and a <code>User</code> service:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#6272a4">// app/Permissions/BlogPermissions.php
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">const</span> BLOG_PERMISSION_FLAGS <span style="color:#ff79c6">=</span> [
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;BLOG_CREATE&#34;</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&lt;&lt;</span> <span style="color:#bd93f9">0</span>,  <span style="color:#6272a4">// 1
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#f1fa8c">&#34;BLOG_READ&#34;</span>   <span style="color:#ff79c6">=&gt;</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&lt;&lt;</span> <span style="color:#bd93f9">1</span>,  <span style="color:#6272a4">// 2
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#f1fa8c">&#34;BLOG_UPDATE&#34;</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&lt;&lt;</span> <span style="color:#bd93f9">2</span>,  <span style="color:#6272a4">// 4
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#f1fa8c">&#34;BLOG_DELETE&#34;</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&lt;&lt;</span> <span style="color:#bd93f9">3</span>,  <span style="color:#6272a4">// 8
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#f1fa8c">&#34;BLOG_PUBLISH&#34;</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&lt;&lt;</span> <span style="color:#bd93f9">4</span>, <span style="color:#6272a4">// 16
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#6272a4">// ... up to 64 blog-specific permissions
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">// app/Permissions/UserPermissions.php
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">const</span> USER_PERMISSION_FLAGS <span style="color:#ff79c6">=</span> [
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;USER_CREATE&#34;</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&lt;&lt;</span> <span style="color:#bd93f9">0</span>,  <span style="color:#6272a4">// 1
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#f1fa8c">&#34;USER_READ&#34;</span>   <span style="color:#ff79c6">=&gt;</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&lt;&lt;</span> <span style="color:#bd93f9">1</span>,  <span style="color:#6272a4">// 2
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#f1fa8c">&#34;USER_UPDATE&#34;</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&lt;&lt;</span> <span style="color:#bd93f9">2</span>,  <span style="color:#6272a4">// 4
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#f1fa8c">&#34;USER_DELETE&#34;</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&lt;&lt;</span> <span style="color:#bd93f9">3</span>,  <span style="color:#6272a4">// 8
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#f1fa8c">&#34;USER_RESET_PASSWORD&#34;</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&lt;&lt;</span> <span style="color:#bd93f9">4</span>, <span style="color:#6272a4">// 16
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#6272a4">// ... up to 64 user-specific permissions
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">// And your JWT payload might now look like this:
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f1fa8c">&#34;iss&#34;</span><span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;your-auth-server.com&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f1fa8c">&#34;exp&#34;</span><span style="color:#ff79c6">:</span> <span style="color:#bd93f9">1735689600</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f1fa8c">&#34;userid&#34;</span><span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;user123&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f1fa8c">&#34;email&#34;</span><span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;user@example.com&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f1fa8c">&#34;blogMask&#34;</span><span style="color:#ff79c6">:</span> <span style="color:#bd93f9">27</span>, <span style="color:#6272a4">// Example: BLOG_CREATE (1), BLOG_READ (2), BLOG_PUBLISH (16) + 8 = 27
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#f1fa8c">&#34;userMask&#34;</span><span style="color:#ff79c6">:</span> <span style="color:#bd93f9">7</span>  <span style="color:#6272a4">// Example: USER_CREATE (1), USER_READ (2), USER_UPDATE (4) = 7
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>}
+</span></span></code></pre></div><p>Notice how we now have <code>blogMask</code> and <code>userMask</code> instead of a single <code>permissionMask</code>. Each is independently calculated and stored.</p>
+<h3 id="backend-implementation-handling-multiple-masks-php-example">Backend Implementation: Handling Multiple Masks (PHP Example)</h3>
+<p>Your backend logic needs to adapt to calculate and check these separate masks.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">// Assume these constants are loaded/imported from their respective files
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">require_once</span> <span style="color:#f1fa8c">&#39;app/Permissions/BlogPermissions.php&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">require_once</span> <span style="color:#f1fa8c">&#39;app/Permissions/UserPermissions.php&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">// A single function to calculate a mask for a given set of permissions and a flag group
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">function</span> <span style="color:#50fa7b">calculateSpecificPermissionMask</span>(<span style="color:#ff79c6">array</span> <span style="color:#8be9fd;font-style:italic">$permissionNames</span>, <span style="color:#ff79c6">array</span> <span style="color:#8be9fd;font-style:italic">$flagGroup</span>)<span style="color:#ff79c6">:</span> int {
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$mask</span> <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">foreach</span> (<span style="color:#8be9fd;font-style:italic">$permissionNames</span> <span style="color:#ff79c6">as</span> <span style="color:#8be9fd;font-style:italic">$name</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> (isset(<span style="color:#8be9fd;font-style:italic">$flagGroup</span>[<span style="color:#8be9fd;font-style:italic">$name</span>])) {
+</span></span><span style="display:flex;"><span>            <span style="color:#8be9fd;font-style:italic">$mask</span> <span style="color:#ff79c6">|=</span> <span style="color:#8be9fd;font-style:italic">$flagGroup</span>[<span style="color:#8be9fd;font-style:italic">$name</span>];
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#8be9fd;font-style:italic">$mask</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">// Example usage to get user&#39;s total masks (e.g., from database)
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">function</span> <span style="color:#50fa7b">getUserAllPermissions</span>(string <span style="color:#8be9fd;font-style:italic">$userId</span>)<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">array</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// In a real app, you&#39;d fetch user roles/permissions from DB,
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#6272a4">// then map them to the correct flag groups.
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#6272a4">// This is just a conceptual example:
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$rawBlogPermissions</span> <span style="color:#ff79c6">=</span> [<span style="color:#f1fa8c">&#34;BLOG_READ&#34;</span>, <span style="color:#f1fa8c">&#34;BLOG_CREATE&#34;</span>, <span style="color:#f1fa8c">&#34;BLOG_PUBLISH&#34;</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$rawUserPermissions</span> <span style="color:#ff79c6">=</span> [<span style="color:#f1fa8c">&#34;USER_READ&#34;</span>, <span style="color:#f1fa8c">&#34;USER_UPDATE&#34;</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$blogMask</span> <span style="color:#ff79c6">=</span> calculateSpecificPermissionMask(<span style="color:#8be9fd;font-style:italic">$rawBlogPermissions</span>, BLOG_PERMISSION_FLAGS);
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$userMask</span> <span style="color:#ff79c6">=</span> calculateSpecificPermissionMask(<span style="color:#8be9fd;font-style:italic">$rawUserPermissions</span>, USER_PERMISSION_FLAGS);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> [
+</span></span><span style="display:flex;"><span>        <span style="color:#f1fa8c">&#39;blogMask&#39;</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#8be9fd;font-style:italic">$blogMask</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f1fa8c">&#39;userMask&#39;</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#8be9fd;font-style:italic">$userMask</span>
+</span></span><span style="display:flex;"><span>    ];
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">// Function to check a specific permission within a specific mask
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">function</span> <span style="color:#50fa7b">hasSpecificPermission</span>(int <span style="color:#8be9fd;font-style:italic">$userMask</span>, string <span style="color:#8be9fd;font-style:italic">$permissionName</span>, <span style="color:#ff79c6">array</span> <span style="color:#8be9fd;font-style:italic">$flagGroup</span>)<span style="color:#ff79c6">:</span> bool {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> (<span style="color:#ff79c6">!</span>isset(<span style="color:#8be9fd;font-style:italic">$flagGroup</span>[<span style="color:#8be9fd;font-style:italic">$permissionName</span>])) {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">false</span>; <span style="color:#6272a4">// Permission not defined in this group
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> (<span style="color:#8be9fd;font-style:italic">$userMask</span> <span style="color:#ff79c6">&amp;</span> <span style="color:#8be9fd;font-style:italic">$flagGroup</span>[<span style="color:#8be9fd;font-style:italic">$permissionName</span>]) <span style="color:#ff79c6">!==</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">// --- Let&#39;s see it in action! ---
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">$userMasks</span> <span style="color:#ff79c6">=</span> getUserAllPermissions(<span style="color:#f1fa8c">&#34;user123&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">$userBlogMask</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$userMasks</span>[<span style="color:#f1fa8c">&#39;blogMask&#39;</span>];
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">$userUserMask</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$userMasks</span>[<span style="color:#f1fa8c">&#39;userMask&#39;</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;User Blog Mask: &#34;</span> <span style="color:#ff79c6">.</span> <span style="color:#8be9fd;font-style:italic">$userBlogMask</span> <span style="color:#ff79c6">.</span> <span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>; <span style="color:#6272a4">// e.g., 27
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;User User Mask: &#34;</span> <span style="color:#ff79c6">.</span> <span style="color:#8be9fd;font-style:italic">$userUserMask</span> <span style="color:#ff79c6">.</span> <span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>; <span style="color:#6272a4">// e.g., 7
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;Can user create a blog post? &#34;</span> <span style="color:#ff79c6">.</span> (hasSpecificPermission(<span style="color:#8be9fd;font-style:italic">$userBlogMask</span>, <span style="color:#f1fa8c">&#34;BLOG_CREATE&#34;</span>, BLOG_PERMISSION_FLAGS) <span style="color:#ff79c6">?</span> <span style="color:#f1fa8c">&#34;Yes!&#34;</span> <span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;No.&#34;</span>) <span style="color:#ff79c6">.</span> <span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;Can user delete a blog post? &#34;</span> <span style="color:#ff79c6">.</span> (hasSpecificPermission(<span style="color:#8be9fd;font-style:italic">$userBlogMask</span>, <span style="color:#f1fa8c">&#34;BLOG_DELETE&#34;</span>, BLOG_PERMISSION_FLAGS) <span style="color:#ff79c6">?</span> <span style="color:#f1fa8c">&#34;Yes!&#34;</span> <span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;No.&#34;</span>) <span style="color:#ff79c6">.</span> <span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;Can user reset another user&#39;s password? &#34;</span> <span style="color:#ff79c6">.</span> (hasSpecificPermission(<span style="color:#8be9fd;font-style:italic">$userUserMask</span>, <span style="color:#f1fa8c">&#34;USER_RESET_PASSWORD&#34;</span>, USER_PERMISSION_FLAGS) <span style="color:#ff79c6">?</span> <span style="color:#f1fa8c">&#34;Absolutely!&#34;</span> <span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;Nope.&#34;</span>) <span style="color:#ff79c6">.</span> <span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">// When creating the JWT payload:
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">$jwtPayload</span> <span style="color:#ff79c6">=</span> [
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// ... other claims ...
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#f1fa8c">&#39;blogMask&#39;</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#8be9fd;font-style:italic">$userBlogMask</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#39;userMask&#39;</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#8be9fd;font-style:italic">$userUserMask</span>
+</span></span><span style="display:flex;"><span>];
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">// Encode this payload into your JWT
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">?&gt;</span>
+</span></span></code></pre></div><h3 id="frontend-implementation-consuming-multiple-masks-vanilla-javascript">Frontend Implementation: Consuming Multiple Masks (Vanilla JavaScript)</h3>
+<p>Your frontend will similarly adapt to check the appropriate mask based on the UI element or feature it&rsquo;s trying to render.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#6272a4">// Ensure these flag groups match your backend definitions!
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">const</span> BLOG_PERMISSION_FLAGS_JS <span style="color:#ff79c6">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;BLOG_CREATE&#34;</span><span style="color:#ff79c6">:</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&lt;&lt;</span> <span style="color:#bd93f9">0</span>, <span style="color:#f1fa8c">&#34;BLOG_READ&#34;</span><span style="color:#ff79c6">:</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&lt;&lt;</span> <span style="color:#bd93f9">1</span>, <span style="color:#f1fa8c">&#34;BLOG_UPDATE&#34;</span><span style="color:#ff79c6">:</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&lt;&lt;</span> <span style="color:#bd93f9">2</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;BLOG_DELETE&#34;</span><span style="color:#ff79c6">:</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&lt;&lt;</span> <span style="color:#bd93f9">3</span>, <span style="color:#f1fa8c">&#34;BLOG_PUBLISH&#34;</span><span style="color:#ff79c6">:</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&lt;&lt;</span> <span style="color:#bd93f9">4</span>
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> USER_PERMISSION_FLAGS_JS <span style="color:#ff79c6">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;USER_CREATE&#34;</span><span style="color:#ff79c6">:</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&lt;&lt;</span> <span style="color:#bd93f9">0</span>, <span style="color:#f1fa8c">&#34;USER_READ&#34;</span><span style="color:#ff79c6">:</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&lt;&lt;</span> <span style="color:#bd93f9">1</span>, <span style="color:#f1fa8c">&#34;USER_UPDATE&#34;</span><span style="color:#ff79c6">:</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&lt;&lt;</span> <span style="color:#bd93f9">2</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;USER_DELETE&#34;</span><span style="color:#ff79c6">:</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&lt;&lt;</span> <span style="color:#bd93f9">3</span>, <span style="color:#f1fa8c">&#34;USER_RESET_PASSWORD&#34;</span><span style="color:#ff79c6">:</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&lt;&lt;</span> <span style="color:#bd93f9">4</span>
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">// Assume this is your decoded JWT payload
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">const</span> decodedJwtPayload <span style="color:#ff79c6">=</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#f1fa8c">&#34;iss&#34;</span><span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;your-auth-server.com&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f1fa8c">&#34;exp&#34;</span><span style="color:#ff79c6">:</span> <span style="color:#bd93f9">1735689600</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f1fa8c">&#34;userid&#34;</span><span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;user123&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f1fa8c">&#34;email&#34;</span><span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;user@example.com&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f1fa8c">&#34;blogMask&#34;</span><span style="color:#ff79c6">:</span> <span style="color:#bd93f9">27</span>, <span style="color:#6272a4">// Example from backend
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#f1fa8c">&#34;userMask&#34;</span><span style="color:#ff79c6">:</span> <span style="color:#bd93f9">7</span>   <span style="color:#6272a4">// Example from backend
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">// Generic function to check permission against a specific mask type
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">function</span> checkPermission(maskValue, permissionName, flagGroup) {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> (<span style="color:#ff79c6">!</span>(permissionName <span style="color:#ff79c6">in</span> flagGroup)) {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">false</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> (maskValue <span style="color:#ff79c6">&amp;</span> flagGroup[permissionName]) <span style="color:#ff79c6">!==</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">// --- How the Frontend uses it for UI! ---
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">const</span> userBlogMask <span style="color:#ff79c6">=</span> decodedJwtPayload.blogMask;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> userUserMask <span style="color:#ff79c6">=</span> decodedJwtPayload.userMask;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">// Example for a blog-related button
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">const</span> createBlogPostButton <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">document</span>.getElementById(<span style="color:#f1fa8c">&#39;createBlogPostButton&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> (createBlogPostButton) {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> (checkPermission(userBlogMask, <span style="color:#f1fa8c">&#34;BLOG_CREATE&#34;</span>, BLOG_PERMISSION_FLAGS_JS)) {
+</span></span><span style="display:flex;"><span>        createBlogPostButton.style.display <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;block&#39;</span>;
+</span></span><span style="display:flex;"><span>    } <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>        createBlogPostButton.style.display <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;none&#39;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">// Example for a user management feature
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">const</span> resetUserPasswordFeature <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">document</span>.getElementById(<span style="color:#f1fa8c">&#39;resetUserPasswordFeature&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> (resetUserPasswordFeature) {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> (checkPermission(userUserMask, <span style="color:#f1fa8c">&#34;USER_RESET_PASSWORD&#34;</span>, USER_PERMISSION_FLAGS_JS)) {
+</span></span><span style="display:flex;"><span>        resetUserPasswordFeature.style.display <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;block&#39;</span>;
+</span></span><span style="display:flex;"><span>    } <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>        resetUserPasswordFeature.style.display <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;none&#39;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>console.log(<span style="color:#f1fa8c">&#34;Can view blog posts? &#34;</span>, checkPermission(userBlogMask, <span style="color:#f1fa8c">&#34;BLOG_READ&#34;</span>, BLOG_PERMISSION_FLAGS_JS) <span style="color:#ff79c6">?</span> <span style="color:#f1fa8c">&#34;Yes!&#34;</span> <span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;No.&#34;</span>);
+</span></span><span style="display:flex;"><span>console.log(<span style="color:#f1fa8c">&#34;Can create users? &#34;</span>, checkPermission(userUserMask, <span style="color:#f1fa8c">&#34;USER_CREATE&#34;</span>, USER_PERMISSION_FLAGS_JS) <span style="color:#ff79c6">?</span> <span style="color:#f1fa8c">&#34;Yes!&#34;</span> <span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;No.&#34;</span>);
+</span></span></code></pre></div><h3 id="considerations-for-multi-mask-architectures">Considerations for Multi-Mask Architectures</h3>
+<p>While highly effective, managing multiple masks introduces a few considerations:</p>
+<ul>
+<li><strong>Flag Group Management:</strong> You&rsquo;ll need a clear system for defining and maintaining your <code>PERMISSION_FLAGS</code> constants for each service or module. This is crucial for consistency between backend and frontend.</li>
+<li><strong>Version Control:</strong> As your permissions evolve, managing changes to these bit flags requires careful version control to avoid breaking existing assignments.</li>
+<li><strong>Initial Setup:</strong> Setting up the initial assignment of permissions to users might become slightly more complex, as you&rsquo;re calculating multiple masks instead of one. However, the benefits in runtime efficiency and JWT compactness far outweigh this.</li>
+<li><strong>Extensibility:</strong> If you introduce a brand new service, you&rsquo;ll add a new mask to your JWT. This keeps your system modular.</li>
+</ul>
+<h3 id="conclusion-scaling-elegantly-with-bitmasks">Conclusion: Scaling Elegantly with Bitmasks</h3>
+<p>By embracing a multi-mask architecture, you can truly unlock the full potential of bitmasking for permission management. You&rsquo;re no longer limited by a single 64-bit integer, and you gain the added benefit of logical separation within your JWTs.</p>
+<p>Your tokens remain incredibly compact – instead of thousands of string characters, you&rsquo;re sending just a handful of numbers, regardless of how many hundreds of permissions they represent. This ensures your applications stay fast, responsive, and free from those pesky &ldquo;header too large&rdquo; errors, even as your system scales to encompass vast and complex permission sets.</p>
+<p>So, go forth and mask! Your leaner, more powerful JWTs (and happier users) will thank you.</p>
+
+  </article><div class="bg-blue-100 dark:bg-gray-900">
+  <div class="container px-6 py-12 mx-auto max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+    <div>
+      <div class="text-2xl font-bold mb-2">Follow me</div>
+      <p class="opacity-60">...</p>
+    </div>
+    <ul class="flex justify-center gap-4">
+      
+      <li>
+        <a
+          href="https://twitter.com/sonussundar"
+          target="_blank"
+          rel="noopener"
+          aria-label="Twitter"
+          class="p-2 inline-block rounded-full border border-transparent text-gray-500 hover:text-gray-800 hover:border-gray-800 cursor-pointer transition-colors dark:text-gray-600 dark:hover:border-gray-300 dark:hover:text-gray-300"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path
+              d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z"
+            />
+          </svg>
+        </a>
+      </li>
+      
+      
+      <li>
+        <a
+          href="https://www.linkedin.com/in/codesonus/"
+          target="_blank"
+          rel="noopener"
+          aria-label="LinkedIn"
+          class="p-2 inline-block rounded-full border border-transparent text-gray-500 hover:text-gray-800 hover:border-gray-800 cursor-pointer transition-colors dark:text-gray-600 dark:hover:border-gray-300 dark:hover:text-gray-300"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <rect x="4" y="4" width="16" height="16" rx="2" />
+            <line x1="8" y1="11" x2="8" y2="16" />
+            <line x1="8" y1="8" x2="8" y2="8.01" />
+            <line x1="12" y1="16" x2="12" y2="11" />
+            <path d="M16 16v-3a2 2 0 0 0 -4 0" />
+          </svg>
+        </a>
+      </li>
+      
+      
+      <li>
+        <a
+                href="https://www.xing.com/profile/"
+                target="_blank"
+                rel="noopener"
+                aria-label="xing"
+                class="p-2 inline-block rounded-full border border-transparent text-gray-500 hover:text-gray-800 hover:border-gray-800 cursor-pointer transition-colors dark:text-gray-600 dark:hover:border-gray-300 dark:hover:text-gray-300"
+        >
+          <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M14.48736,22.8L9.65664,14.33208L17.154,1.2H22.2L14.70288,14.33208L19.53384,22.8H14.48736z M6.55728,16.26888l3.74808-6.17064l-2.81088-4.9512 H2.73696l2.81112,4.9512L1.8,16.26888H6.55728z"/>
+          </svg>
+        </a>
+      </li>
+      
+      
+      <li>
+        <a
+          href="https://github.com/sonus"
+          target="_blank"
+          rel="noopener"
+          aria-label="GitHub"
+          class="p-2 inline-block rounded-full border border-transparent text-gray-500 hover:text-gray-800 hover:border-gray-800 cursor-pointer transition-colors dark:text-gray-600 dark:hover:border-gray-300 dark:hover:text-gray-300"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path
+              d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"
+            />
+          </svg>
+        </a>
+      </li>
+      
+      
+      <li>
+        <a
+          href="https://medium.com/@SonusSundar"
+          target="_blank"
+          rel="noopener"
+          aria-label="Medium"
+          class="p-2 inline-block rounded-full border border-transparent text-gray-500 hover:text-gray-800 hover:border-gray-800 cursor-pointer transition-colors dark:text-gray-600 dark:hover:border-gray-300 dark:hover:text-gray-300"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <rect x="4" y="4" width="16" height="16" rx="2" />
+            <path d="M8 9h1l3 3l3 -3h1" />
+            <line x1="8" y1="15" x2="10" y2="15" />
+            <line x1="14" y1="15" x2="16" y2="15" />
+            <line x1="9" y1="9" x2="9" y2="15" />
+            <line x1="15" y1="9" x2="15" y2="15" />
+          </svg>
+        </a>
+      </li>
+      
+      
+      
+      
+      
+    </ul>
+  </div>
+</div>
+    </main><footer class="container p-6 mx-auto flex justify-between items-center">
+  <span class="text-sm font-light">
+    
+    Copyright © 2024 - Sonus Sundar · All rights reserved
+    
+  </span>
+  <span onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="p-1 cursor-pointer">
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5"
+      stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M18 15l-6 -6l-6 6h12" />
+    </svg>
+  </span>
+</footer>
+
+<div class="search-ui absolute top-0 left-0 w-full h-full bg-white dark:bg-gray-800 hidden">
+  <div class="container max-w-3xl mx-auto p-12">
+    <div class="relative">
+      <div class="my-4 text-center text-2xl font-bold">Search</div>
+
+      <span class="p-2 absolute right-0 top-0 cursor-pointer close-search">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5"
+          stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </span>
+    </div>
+
+    <input type="search" class="py-2 px-3 w-full dark:text-black border dark:border-transparent"
+      placeholder="Enter search query" />
+
+    <div class="search-results text-lg font-medium my-4 hidden">Results</div>
+    <ul class="search-list my-2">
+
+    </ul>
+
+    <div class="no-results text-center my-8 hidden">
+      <div class="text-xl font-semibold mb-2">No results found</div>
+      <p class="font-light text-sm">Try adjusting your search query</p>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<script src="http://localhost:1313/js/scripts.min.js"></script>
+
+
+  
+
+
+
+
+
+
+<script>
+  
+  const darkmode = document.querySelector('.toggle-dark-mode');
+  function toggleDarkMode() {
+    if (document.documentElement.classList.contains('dark')) {
+      document.documentElement.classList.remove('dark')
+      localStorage.setItem('darkmode', 'light')
+    } else {
+      document.documentElement.classList.add('dark')
+      localStorage.setItem('darkmode', 'dark')
+    }
+  }
+  if (darkmode) {
+    darkmode.addEventListener('click', toggleDarkMode);
+  }
+
+  const darkStorage = localStorage.getItem('darkmode');
+  const isBrowserDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  if (!darkStorage && isBrowserDark) {
+    document.documentElement.classList.add('dark');
+  }
+
+  if (darkStorage && darkStorage === 'dark') {
+    toggleDarkMode();
+  }
+</script>
+
+
+<script>
+  const mobileMenuButton = document.querySelector('.mobile-menu-button')
+  const mobileMenu = document.querySelector('.mobile-menu')
+  function toggleMenu() {
+    mobileMenu.classList.toggle('hidden');
+    mobileMenu.classList.toggle('flex');
+  }
+  if(mobileMenu && mobileMenuButton){
+    mobileMenuButton.addEventListener('click', toggleMenu)
+  }
+</script>
+</body>
+</html>

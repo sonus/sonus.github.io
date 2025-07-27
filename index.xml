@@ -1,49 +1,13 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Sonus Sundar - Full-stack Software Engineer</title>
-    <link>https://sonus.xyz/</link>
-    <description>Recent content on Sonus Sundar - Full-stack Software Engineer</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 13 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://sonus.xyz/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>About Me</title>
-      <link>https://sonus.xyz/page/about/</link>
-      <pubDate>Sun, 13 Feb 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://sonus.xyz/page/about/</guid>
-      <description>2022-02-13   I am a curious programmer who loves to learn about something interesting.
-Professional Summary Accomplished Software Developer offering 11 years&#39; experience in comprehensive design and development of infrastructure and architecture for software projects. Attentive collaborator and communicator from project conception to completion. Creative in devising solutions to improve business operations and meet clients&#39; technical needs. Seasoned team leader possessing the technical and interpersonal skills to provide exceptional project deliverables.</description>
-    </item>
-    
-    <item>
-      <title>RegEx for parsing chemical formulas in paragraph</title>
-      <link>https://sonus.xyz/blog/regex-for-parsing-chemical-formulas-in-paragraph/</link>
-      <pubDate>Thu, 11 Oct 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://sonus.xyz/blog/regex-for-parsing-chemical-formulas-in-paragraph/</guid>
-      <description>Here what it is
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Sonus Sundar - Full-stack Software Engineer</title><link>https://sonus.xyz/</link><description>Recent content on Sonus Sundar - Full-stack Software Engineer</description><generator>Hugo -- gohugo.io</generator><lastBuildDate>Sun, 13 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://sonus.xyz/index.xml" rel="self" type="application/rss+xml"/><item><title>About Me</title><link>https://sonus.xyz/page/about/</link><pubDate>Sun, 13 Feb 2022 00:00:00 +0000</pubDate><guid>https://sonus.xyz/page/about/</guid><description>2022-02-13 I am a curious programmer who loves to learn about something interesting.
+Professional Summary Accomplished Software Developer offering 11 years' experience in comprehensive design and development of infrastructure and architecture for software projects. Attentive collaborator and communicator from project conception to completion. Creative in devising solutions to improve business operations and meet clients' technical needs. Seasoned team leader possessing the technical and interpersonal skills to provide exceptional project deliverables.</description></item><item><title>RegEx for parsing chemical formulas in paragraph</title><link>https://sonus.xyz/blog/regex-for-parsing-chemical-formulas-in-paragraph/</link><pubDate>Thu, 11 Oct 2018 00:00:00 +0000</pubDate><guid>https://sonus.xyz/blog/regex-for-parsing-chemical-formulas-in-paragraph/</guid><description>Here what it is
 Data returns something like this
 [ { name: &amp;#34;Water&amp;#34;, details: &amp;#34; water chemical formula is H2O&amp;#34; } ... ] and we want to replace chemical formula to look in html like this
- water chemical formula is H2O &amp;lt;p&amp;gt; water chemical formula is H&amp;lt;sub&amp;gt;2&amp;lt;/sub&amp;gt;O &amp;lt;/p&amp;gt; You can replace the specific content in side the html body like the following.
+water chemical formula is H2O &amp;lt;p&amp;gt; water chemical formula is H&amp;lt;sub&amp;gt;2&amp;lt;/sub&amp;gt;O &amp;lt;/p&amp;gt; You can replace the specific content in side the html body like the following.
 Link to codepen
-var str = &amp;#39;Aluminium oxide or aluminum oxide is a chemical compound of aluminium and oxygen with the chemical formula Al2O3.</description>
-    </item>
-    
-    <item>
-      <title>Toggle-Terminator</title>
-      <link>https://sonus.xyz/blog/toggle-terminator/</link>
-      <pubDate>Tue, 09 Oct 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://sonus.xyz/blog/toggle-terminator/</guid>
-      <description>Make Terminator Terminal Act Like Guake/Yakuake Terminal in UBUNTU Many of us might have come across our favourite tools lakes some features, This is something like that turn out to be this repo that implemented a toggle functionality to the terminator.
+var str = &amp;#39;Aluminium oxide or aluminum oxide is a chemical compound of aluminium and oxygen with the chemical formula Al2O3.</description></item><item><title>Toggle-Terminator</title><link>https://sonus.xyz/blog/toggle-terminator/</link><pubDate>Tue, 09 Oct 2018 00:00:00 +0000</pubDate><guid>https://sonus.xyz/blog/toggle-terminator/</guid><description>Make Terminator Terminal Act Like Guake/Yakuake Terminal in UBUNTU Many of us might have come across our favourite tools lakes some features, This is something like that turn out to be this repo that implemented a toggle functionality to the terminator.
 Check out the git repo :
 Star
 Install Dependencies
 sudo apt-get install xdotool wmctrl Clone the repository
 git clone https://github.com/sonus/toggle-terminator.git ~/toggle-terminator Change Directory to toggle-terminator
-cd ~/toggle-terminator Make the python script an executable</description>
-    </item>
-    
-  </channel>
-</rss>
+cd ~/toggle-terminator Make the python script an executable</description></item></channel></rss>
